@@ -1,10 +1,11 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import { EventEmitter } from "@angular/core";
+import { Subject } from "rxjs";
 
 import { Contacto } from "./contacto.model";
 
 export class ContactoService {
-    selectedContacto = new EventEmitter<Contacto>();
-    contactosChanged = new EventEmitter<Contacto[]>();
+    selectedContacto = new Subject<Contacto>();
+    contactosChanged = new Subject<Contacto[]>();
 
     private contactos: Contacto[] = [
         new Contacto(1, 'Michael David', 'Mateo Abreu', '849-255-9737', 'mmateoabreu70@gmail.com', 0, 
@@ -24,13 +25,13 @@ export class ContactoService {
     }
 
     onContactoSelected (selectedItem: Contacto) {
-        this.selectedContacto.emit(selectedItem);
+        this.selectedContacto.next(selectedItem);
     }
 
     addContacto (contacto: Contacto) {
         contacto.id = this.id = this.id + 1;
         this.contactos.push(contacto);
-        this.contactosChanged.emit(this.contactos);
+        this.contactosChanged.next(this.contactos);
 
         console.log(this.contactos);
     }
