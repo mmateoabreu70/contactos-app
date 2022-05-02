@@ -1,17 +1,28 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
+import { 
+  FontAwesomeModule, 
+  FaIconLibrary
+} from '@fortawesome/angular-fontawesome';
+import {
+  faPenToSquare,
+  faTrashCan,
+  faCirclePlus
+} from '@fortawesome/free-solid-svg-icons'
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ContactosComponent } from './contactos/contactos.component';
 import { ContactosListComponent } from './contactos/contactos-list/contactos-list.component';
+import { ContactoListItemComponent } from './contactos/contactos-list/contacto-list-item/contacto-list-item.component';
+import { ContactosAddComponent } from './contactos/contactos-add/contactos-add.component';
+import { AppRoutingModule } from './app-routing.module';
 import { ContactoDetailComponent } from './contactos/contacto-detail/contacto-detail.component';
+import { LoginGuard } from './guards/login-guard.service';
+import { DropdownDirective } from './directives/dropdown.directive';
+import { LinkDirective } from './directives/link.directive';
 
-const routes: Routes = [
-  { path: 'contactos', component: ContactosComponent },
-  { path: '', component: HomeComponent }
-];
 
 @NgModule({
   declarations: [
@@ -19,13 +30,29 @@ const routes: Routes = [
     HomeComponent,
     ContactosComponent,
     ContactosListComponent,
-    ContactoDetailComponent
+    ContactoDetailComponent,
+    ContactoListItemComponent,
+    ContactosAddComponent,
+    DropdownDirective,
+    LinkDirective
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    AppRoutingModule,
+    FontAwesomeModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [LoginGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
+      faPenToSquare,
+      faTrashCan,
+      faCirclePlus
+    )
+  }
+
+}

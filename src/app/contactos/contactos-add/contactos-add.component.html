@@ -1,0 +1,140 @@
+<div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="contactoAddForm">
+        <h2>Nuevo contacto</h2>
+
+        <input type="number" hidden name="id">
+
+        <div formGroupName="fullName">
+            <div class="row mb-3 col-sm-4">
+                <label class="form-label" for="nombres">Nombres</label>
+                <input 
+                    type="text"
+                    class="form-control"
+                    name="nombres"
+                    formControlName="nombres"
+                >
+                <span 
+                    class="validation-text" 
+                    *ngIf="!contactoAddForm.get('fullName.nombres').valid && contactoAddForm.get('fullName.nombres').touched">
+                    <span *ngIf="contactoAddForm.get('fullName.nombres').errors['forbiddenChar']">Has introducido un caracter invalido para un nombre!</span>
+                    <span *ngIf="contactoAddForm.get('fullName.nombres').errors['required']">Este campo es requerido!</span>
+                </span>
+            </div>
+    
+            <div class="row mb-3 col-sm-4">
+                <label class="form-label" for="apellidos">Apellidos</label>
+                <input 
+                    type="text"
+                    class="form-control"                
+                    name="apellidos"
+                    formControlName="apellidos"
+                >
+            </div>
+        </div>
+
+        <div class="row mb-3 col-sm-4">
+            <label class="form-label" for="telefono">Telefono</label>
+            <input 
+                type="tel"
+                class="form-control"                
+                name="telefono"
+                formControlName="telefono"
+            >
+            <span 
+                class="validation-text" 
+                *ngIf="!contactoAddForm.get('telefono').valid && contactoAddForm.get('telefono').touched">
+                <span *ngIf="contactoAddForm.get('telefono').errors['required']">Este campo es requerido!</span>
+            </span>
+
+        </div>
+
+        <div class="row mb-3 col-sm-4">
+            <label class="form-label" for="email">Email</label>
+            <input 
+                type="text"
+                class="form-control"
+                name="email"
+                formControlName="email"
+            >
+            <span 
+                class="validation-text" 
+                *ngIf="!contactoAddForm.get('email').valid && contactoAddForm.get('email').touched">
+                <span *ngIf="contactoAddForm.get('email').errors['email'] || contactoAddForm.get('email').errors['emailIsForbidden']">Email invalido!</span>
+                <span *ngIf="contactoAddForm.get('email').errors['required']">Este campo es requerido!</span>
+            </span>
+        </div>
+
+        <fieldset class="mb-3">
+            <legend>Genero</legend>
+            <div class="form-check" *ngFor="let gender of genders; let idx = index">
+                <input 
+                    type="radio" 
+                    class="form-check-input" 
+                    name="genero"                    
+                    [value]="idx"
+                    formControlName="genero"
+                >
+                <label class="form-check-label" for="genero">
+                    {{ gender }}
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset class="mb-3">
+            <legend>Hoobies</legend>
+            <div class="col-sm-4" formArrayName="hobbies">
+                <div 
+                    class="mb-2 d-flex"
+                    *ngFor="let control of hobbyControls; let i = index">
+                    
+                    <input 
+                        class="form-control form-control-sm mb-1"
+                        type="text"
+                        [formControlName]="i">
+                    
+                    <p 
+                        class="validation-text"
+                        *ngIf="!control.valid && control.touched">*</p>
+                    
+                    <a appLink class="mx-3" (click)="onDeleteHobby(i)" *ngIf="i !== 0">
+                        <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
+                    </a>
+                </div>
+
+                <a appLink hoverColor="green" (click)="onAddHobby()" title="Nuevo hobby">
+                    <span>
+                        <fa-icon [icon]="['fas', 'circle-plus']"></fa-icon>
+                        Nuevo hobby
+                    </span>
+                </a>
+            </div>
+
+        </fieldset>
+
+        <!-- <div class="row mb-3 col-sm-4">
+            <label for="image" class="form-label">Foto de perfil</label>
+            <input 
+                class="form-control form-control-sm" 
+                id="image" 
+                type="file"
+                
+                name="image"
+                #image=""
+            >
+        </div> -->
+
+        <div class="row">
+            <div class="col-1">
+                <button 
+                    type="submit" 
+                    class="btn btn-success"
+                    [disabled]="!formValid && !editMode">
+                    Guardar
+                </button>
+            </div>
+            <div class="col-1">
+                <a class="btn btn-secondary" routerLink="/contactos">Volver</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -12,10 +12,24 @@
         <li class="nav-item">
           <a routerLink="/contactos" routerLinkActive="active" class="nav-link">Contactos</a>
         </li>
+        
       </ul>
     </div>
+    <ul class="navbar-nav d-flex me-sm-5">
+      <li class="nav-item dropdown" appDropdown>
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+          Preferencias
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" appDropdown>
+          <li><a class="dropdown-item" (click)="onLogIn()" *ngIf="!loggedIn">Iniciar sesion</a></li>
+          <li><a class="dropdown-item" (click)="onLogOut()" *ngIf="loggedIn">Cerrar sesion</a></li>
+        </ul>
+      </li>
+    </ul>
+    
   </div>
 </nav>
-<section class="container">
+<div class="container">
+  <br>
   <router-outlet></router-outlet>
-</section>
+</div>

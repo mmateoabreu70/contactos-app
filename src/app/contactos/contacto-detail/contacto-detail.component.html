@@ -1,1 +1,31 @@
-<p>contacto-detail works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-md-7">
+            <div class="card" *ngIf="contacto; else NoContactoSelected">
+                <img [src]="'assets/images/perfiles/' + (contacto.imgPath ? contacto.imgPath : 'no-contacto.png')" class="card-img-top d-flex justify-content-center profile-img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ contacto.nombres }}</h5>
+                    <h5 class="card-title">{{ contacto.apellidos }}</h5>
+                    <small style="opacity: 0.5;"><i>{{ genders[contacto.genero] }}</i></small>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ contacto.telefono }}</li>
+                    <li class="list-group-item">{{ contacto.email }}</li>
+                    <li class="list-group-item">
+                        <ul>
+                            <li *ngFor="let hobby of contacto.hobbies">{{ hobby }}</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="card-footer">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            <ng-template #NoContactoSelected>
+                <span style="color: red;">Selecciona un contacto para ver detalle</span>
+            </ng-template>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>

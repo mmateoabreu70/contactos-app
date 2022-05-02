@@ -8,18 +8,19 @@ import { ContactoService } from '../contacto.service';
   styleUrls: ['./contactos-list.component.css']
 })
 export class ContactosListComponent implements OnInit {
-  selectedItem: Contacto;
   contactos: Contacto[] = [];
 
   constructor(private contactoService: ContactoService) { }
 
   ngOnInit(): void {
-    this.contactos = this.contactoService.getContactos();
-  }
+    this.contactoService.contactosChanged.subscribe(
+      (contactos: Contacto[]) => {
+        this.contactos = contactos;
+      }
+    );
 
-  onContactoSelected(contacto: Contacto) {
-    this.selectedItem = contacto;
-    this.contactoService.onContactoSelected(contacto);
+    this.contactos = this.contactoService.getContactos();
+    console.log(this.contactos);
   }
 
 }
