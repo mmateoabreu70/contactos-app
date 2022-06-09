@@ -1,11 +1,11 @@
 <div class="container">
     <form (ngSubmit)="onSubmit()" [formGroup]="contactoAddForm">
-        <h2>Nuevo contacto</h2>
+        <h2>{{ editMode ? 'Editar' : 'Nuevo' }} contacto</h2>
 
         <input type="number" hidden name="id">
 
         <div formGroupName="fullName">
-            <div class="row mb-3 col-sm-4">
+            <div class="row mb-3 col-sm-8">
                 <label class="form-label" for="nombres">Nombres</label>
                 <input 
                     type="text"
@@ -21,7 +21,7 @@
                 </span>
             </div>
     
-            <div class="row mb-3 col-sm-4">
+            <div class="row mb-3 col-sm-8">
                 <label class="form-label" for="apellidos">Apellidos</label>
                 <input 
                     type="text"
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="row mb-3 col-sm-4">
+        <div class="row mb-3 col-sm-8">
             <label class="form-label" for="telefono">Telefono</label>
             <input 
                 type="tel"
@@ -48,7 +48,7 @@
 
         </div>
 
-        <div class="row mb-3 col-sm-4">
+        <div class="row mb-3 col-sm-8">
             <label class="form-label" for="email">Email</label>
             <input 
                 type="text"
@@ -82,7 +82,17 @@
 
         <fieldset class="mb-3">
             <legend>Hoobies</legend>
-            <div class="col-sm-4" formArrayName="hobbies">
+
+            <a appLink class="mx-3" hoverColor="green" (click)="onAddHobby()" title="Nuevo hobby">
+                <span>
+                    <fa-icon [icon]="['fas', 'circle-plus']"></fa-icon>
+                    Nuevo hobby
+                </span>
+            </a>
+
+            <button type="button" class="btn btn-warning mb-3" (click)="onClearAllHobbies()">Eliminar todos</button>
+            
+            <div class="col-sm-8" formArrayName="hobbies">
                 <div 
                     class="mb-2 d-flex"
                     *ngFor="let control of hobbyControls; let i = index">
@@ -96,17 +106,10 @@
                         class="validation-text"
                         *ngIf="!control.valid && control.touched">*</p>
                     
-                    <a appLink class="mx-3" (click)="onDeleteHobby(i)" *ngIf="i !== 0">
+                    <a appLink class="mx-3" (click)="onDeleteHobby(i)">
                         <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
                     </a>
                 </div>
-
-                <a appLink hoverColor="green" (click)="onAddHobby()" title="Nuevo hobby">
-                    <span>
-                        <fa-icon [icon]="['fas', 'circle-plus']"></fa-icon>
-                        Nuevo hobby
-                    </span>
-                </a>
             </div>
 
         </fieldset>
@@ -123,8 +126,8 @@
             >
         </div> -->
 
-        <div class="row">
-            <div class="col-1">
+        <div class="row mb-4">
+            <div class="col-sm-3">
                 <button 
                     type="submit" 
                     class="btn btn-success"
@@ -132,8 +135,8 @@
                     Guardar
                 </button>
             </div>
-            <div class="col-1">
-                <a class="btn btn-secondary" routerLink="/contactos">Volver</a>
+            <div class="col-sm-3">
+                <a class="btn btn-secondary" (click)="onClearForm();">Limpiar</a>
             </div>
         </div>
     </form>

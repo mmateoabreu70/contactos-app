@@ -32,14 +32,21 @@ export class ContactoService {
         contacto.id = this.id = this.id + 1;
         this.contactos.push(contacto);
         this.contactosChanged.next(this.contactos);
-
-        console.log(this.contactos);
     }
 
     updateContacto (contactoToUpdate) {
         let contactoFound = this.contactos.find(c => c.id === contactoToUpdate.id);
         let index = this.contactos.indexOf(contactoFound);
         this.contactos[index] = contactoToUpdate;
+    }
+
+    deleteContacto (id: number) {
+        let contactoFound = this.contactos.find(c => c.id === id);
+        let index = this.contactos.indexOf(contactoFound);
+        this.contactos.splice(index, 1);
+
+        this.contactosChanged.next(this.contactos.slice());
+        this.selectedContacto.next(null);
     }
 
     // findIndexToUpdate(newItem) { 

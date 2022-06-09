@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Contacto } from '../../contacto.model';
 import { ContactoService } from '../../contacto.service';
 
@@ -11,7 +12,9 @@ export class ContactoListItemComponent implements OnInit {
   selectedItem: Contacto;
   @Input() contactos: Contacto[];
 
-  constructor(private contactoService: ContactoService) { }
+  constructor(
+    private contactoService: ContactoService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -21,4 +24,8 @@ export class ContactoListItemComponent implements OnInit {
     this.contactoService.onContactoSelected(contacto);
   }
 
+  onDelete(id: number) {
+    this.contactoService.deleteContacto(id);
+    // this.router.navigate(['/contactos'], {relativeTo: this.activatedRoute})
+  }
 }

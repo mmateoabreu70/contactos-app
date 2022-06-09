@@ -1,7 +1,7 @@
-import { AfterContentInit, AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, NgForm, RadioControlValueAccessor, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Contacto } from '../contacto.model';
 import { ContactoService } from '../contacto.service';
 
@@ -10,8 +10,9 @@ import { ContactoService } from '../contacto.service';
   templateUrl: './contactos-add.component.html',
   styleUrls: ['./contactos-add.component.css']
 })
-export class ContactosAddComponent implements OnInit {
+export class ContactosAddComponent implements OnInit, OnDestroy {
   contactoAddForm: FormGroup;
+  paramsSubscription: Subscription;
 
   genders = ['Masculino', 'Femenino'];
   forbiddenSymbols: String[] = ['/', '*', '@'];
@@ -27,7 +28,7 @@ export class ContactosAddComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params
+    this.paramsSubscription = this.route.params
       .subscribe(
         (param: Params) => {
           this.id = +param['id'];
@@ -56,7 +57,7 @@ export class ContactosAddComponent implements OnInit {
     let email = '';
     let genero = 0;
     let hobbies = new FormArray([
-      new FormControl(null, Validators.required)
+      new FormControl(null)
     ]);
 
     if (this.editMode) {
@@ -100,8 +101,16 @@ export class ContactosAddComponent implements OnInit {
     return (this.contactoAddForm.get('hobbies') as FormArray).controls;
   }
 
+  onClearAllHobbies() {
+    (this.contactoAddForm.get('hobbies') as FormArray).clear();
+  }
+
+  onClearForm() {
+    this.initForm();
+  }
+
   onDeleteHobby(idx: number) {
-    (this.contactoAddForm.get('hobbies') as FormArray).controls.splice(idx, 1);
+    (this.contactoAddForm.get('hobbies') as FormArray).removeAt(idx);
   }
 
   forbiddenCharacters(control: FormControl): {[s: string]: boolean} {
@@ -147,7 +156,11 @@ export class ContactosAddComponent implements OnInit {
       this.contactoService.addContacto(contact);
     }
 
-    this.router.navigate(['contactos']);
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy(): void {
+    this.paramsSubscription.unsubscribe();
   }
 
 }

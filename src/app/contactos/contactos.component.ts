@@ -7,8 +7,6 @@ import { ContactoService } from './contacto.service';
   styleUrls: ['./contactos.component.css']
 })
 export class ContactosComponent implements OnInit {
-  showModal = true;
-
   constructor() { }
 
   ngOnInit(): void {

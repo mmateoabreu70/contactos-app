@@ -8,7 +8,8 @@ import {
 import {
   faPenToSquare,
   faTrashCan,
-  faCirclePlus
+  faCirclePlus,
+  faGear
 } from '@fortawesome/free-solid-svg-icons'
 
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { ContactoDetailComponent } from './contactos/contacto-detail/contacto-de
 import { LoginGuard } from './guards/login-guard.service';
 import { DropdownDirective } from './directives/dropdown.directive';
 import { LinkDirective } from './directives/link.directive';
+import { ContactosStartComponent } from './contactos/contactos-start/contactos-start.component';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { LinkDirective } from './directives/link.directive';
     ContactoListItemComponent,
     ContactosAddComponent,
     DropdownDirective,
-    LinkDirective
+    LinkDirective,
+    ContactosStartComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ export class AppModule {
     library.addIcons(
       faPenToSquare,
       faTrashCan,
-      faCirclePlus
+      faCirclePlus,
+      faGear
     )
   }
 
